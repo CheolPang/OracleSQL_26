@@ -62,7 +62,62 @@ rollback;
 
 --수정
 update dbtest set age=age+1 where name like 'Hong%';
+update dbtest set age=age+1 where name like '%Hong%';
 select * from dbtest;
 update dbtest set age=30 where name='Hong-GilDong';
 --나이가 null인 사람의 데이터는 모두 30살로 수정
 update dbtest set age=30 where age is null;
+
+--depart 부서 테이블 생성
+create table depart(
+    deptno number not null, --부서번호(학과번호)
+    dname varchar2(25) not null, --부서명(학과명)
+    loc varchar2(10) default null --위치(건물명)  
+);
+
+
+select * from depart;
+----drop table depart purge;
+
+
+INSERT INTO depart (deptno, dname) VALUES (302, 'Electrical_Engineering');
+INSERT INTO depart VALUES (101, 'Computer_Science', 'Building1');
+INSERT INTO depart VALUES (102, 'Multimedia', 'Building2');
+INSERT INTO depart VALUES (201, 'Electronic_Engineering', 'Building3');
+INSERT INTO depart VALUES (202, 'Mechanical_Engineering', 'Building4');
+
+
+--emp 테이블
+create table emp(
+    empno number primary key, --직원번호 pk:unique(데이터 중복 금지), not null(반드시 데이터가 있어야 한다.)
+    name varchar2(20) not null, --이름
+    position varchar2(10) not null, --직급
+    tel varchar2(15) not null, --연락처
+    deptno number not null); --학과번호
+    --empYear number, --연차
+    --regTime date --입사 날짜
+    --primary key(empno)
+
+
+----drop table emp purge;
+
+
+--INSERT INTO emp (empno,name,position,tel,deptno,empYear) VALUES (20101, '홍길동', '사원', '031)781-2158', 101, null);
+INSERT INTO emp VALUES (20101, 'Hong-GilDong', 'Sawon', '031)781-2158', 101);
+INSERT INTO emp VALUES (10102, 'Kim-CheolSu', 'GwaZang', '032)261-8947', 101);
+INSERT INTO emp VALUES (10103, 'Lee-YeongHee', 'Daeri', '02)824-9637', 102);
+INSERT INTO emp VALUES (10104, 'Go-GilDong', 'Sawon', '02)824-9637', 102);
+INSERT INTO emp VALUES (10105, 'Kang-HoDong', 'Sawon', '02)824-9637', 102);
+INSERT INTO emp VALUES (10106, 'IU', 'Sawon', '02)881-2158', 105);
+
+--중복값을 방지하기 위해 자동으로 순차적으로 증강하는 순변을 생성하는 데이터베이스 객체 => 시퀀스
+create sequence seq_board nocycle nocache;
+drop sequence seq_board;
+
+create sequence empno nocycle nocache;
+INSERT INTO emp VALUES (empno.nextval, 'IU', 'Sawon', '02)881-2158', 105, sysdate);
+select * from emp;
+select empno, sysdate from emp;
+select empno, to_char(sysdate, 'YY-mm-dd hh:mi:ss') from emp;
+select empno, to_char(sysdate, 'YY-mm-dd hh24:mi:ss') from emp;
+select empno, to_char(sysdate, '""YYYY"Year "mm"Month "dd"Date "hh"time "mi"minute "ss"second') from emp;
