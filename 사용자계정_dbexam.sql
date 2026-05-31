@@ -99,7 +99,7 @@ create table emp(
     --primary key(empno)
 
 
-----drop table emp purge;
+drop table emp purge;
 
 
 --INSERT INTO emp (empno,name,position,tel,deptno,empYear) VALUES (20101, '홍길동', '사원', '031)781-2158', 101, null);
@@ -115,9 +115,34 @@ create sequence seq_board nocycle nocache;
 drop sequence seq_board;
 
 create sequence empno nocycle nocache;
-INSERT INTO emp VALUES (empno.nextval, 'IU', 'Sawon', '02)881-2158', 105, sysdate);
+INSERT INTO emp VALUES (empno.nextval, '김사원', '대리', '02)881-2558', 105, sysdate);select * from seq;
+INSERT INTO emp VALUES (empno.nextval, '김대리', '사원', '02)881-2188', 105, sysdate);select * from seq;
+
+
+
 select * from emp;
 select empno, sysdate from emp;
 select empno, to_char(sysdate, 'YY-mm-dd hh:mi:ss') from emp;
 select empno, to_char(sysdate, 'YY-mm-dd hh24:mi:ss') from emp;
-select empno, to_char(sysdate, '""YYYY"Year "mm"Month "dd"Date "hh"time "mi"minute "ss"second') from emp;
+select empno, to_char(sysdate, '""YYYY"년 "mm"월 "dd"일 "hh"시 "mi"분 "ss"초') from emp;
+select * from depart;
+commit;
+
+
+--self Util
+select * from users;
+create table users(
+    ID varchar2(4000), 
+    PW varchar2(4000),
+    NM varchar2(4000),
+    WARN number(1),
+    BAN number(1),
+    logtime date
+);
+drop table users;
+
+insert into users values ('TestAccount','1234', '테스트계정', 0, 0, sysdate);
+delete users where ID='TestAccount2';
+update users set PW='Ne12312t' where ID='TestAccount' AND PW='1234';
+update users set WARN=WARN+1 where ID='TestAccount';
+commit;
